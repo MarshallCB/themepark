@@ -1,6 +1,6 @@
 import { fillObject, toCSSVars } from './helpers'
 
-export class Themepark{
+class Themepark{
   constructor(params, definitions){
     this.subscribers = new Map()
     this.params = params;
@@ -27,10 +27,6 @@ export class Themepark{
   unsub(id){
     this.subscribers.delete(id)
   }
-  shift(h){
-    this.hue = h;
-    this.update()
-  }
   style(query){
     // Todo: create array of each element for each query so we can attach an event listener for unmount
     // So we can automatically attach an unsub event to that
@@ -39,3 +35,18 @@ export class Themepark{
     }))
   }
 }
+
+Themepark.toCSSVars = toCSSVars;
+
+export Themepark;
+
+
+/**
+ * background: hsl(var(--hue), 100%, 50%);
+ * 
+ * TO
+ * 
+ * --hue: initial;
+ * background: hsl(220, 100%, 50%);
+ * background: hsl(var(--hue), 100%, 50%);
+ */
