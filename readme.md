@@ -33,15 +33,16 @@ npm install huebris
 
 Script tag (via unpkg):
 ```html
-<script src="" />
+<!-- Available as global variable themepark -->
+<script src="https://unpkg.com/themepark" />
 ```
 
-Browser Module (via unpkg):
+Browser Module (via snowpack):
 ```js
-import { palette } from '';
+import { Themepark } from 'https://cdn.skypack.dev/themepark';
 ```
 
-## API
+## Overview
 
 ### Server
 ```js
@@ -83,6 +84,29 @@ import { palette } from '';
 
   theme.unsub(subscripiton_id) // Remove subscription from earlier (clean up)
 ```
+
+## API
+
+### generateTheme
+
+Useful for server-side rendering (SSR)
+```js
+  let params = {
+    night: false,
+    hue: 220
+  }
+  let definitions = {
+    primary: ({ hue }) => `hsl(${hue}, 100%, 50%)`,
+    background: ({ night, primary }) => night ? `hsl(${primary}, 20%, 20%)` : `white`,
+    text: ({ night }) => night ? `white` : `hsl(200, 20%, 20%)`
+  }
+  let { values, css } = generateTheme(params, definitions)
+```
+
+### Themepark
+
+Useful for creating a reactive theme on the browser
+
 
 ## Examples
 
