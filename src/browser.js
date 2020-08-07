@@ -1,6 +1,6 @@
 import { fillObject, toCSSVars } from './helpers'
 
-class Themepark{
+class Theme{
   constructor(params, definitions){
     this.subscribers = new Map()
     this.params = params;
@@ -36,9 +36,9 @@ class Themepark{
   }
 }
 
-Themepark.toCSSVars = toCSSVars;
+Theme.toCSSVars = toCSSVars;
 
-export Themepark;
+export Theme;
 
 
 /**

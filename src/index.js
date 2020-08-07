@@ -1,5 +1,5 @@
-export { Themepark } from './browser'
-export {  generateTheme } from './server'
+export { Theme } from './browser'
+export {  generateCSSVars } from './server'
 
 // export Themepark;
 // export generateTheme;

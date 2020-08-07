@@ -1,6 +1,6 @@
 import { toCSSVars, fillObject } from './helpers'
 
-export function generateTheme(defaults, definitions){
+export function generateCSSVars(defaults, definitions){
   let vars = fillObject(definitions, defaults)
   return {
     css: toCSSVars(vars),
