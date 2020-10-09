@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/marshallcb/themepark/raw/master/themepark.png" alt="Themepark" width="300" />
+  <img src="https://github.com/marshallcb/themepark/raw/master/themepark.png" alt="Themepark" width="100" />
 </div>
 
 <h1 align="center">themepark</h1>
@@ -14,6 +14,13 @@
 
 <div align="center">Reactive CSS Variables</div>
 
+<div align="center">
+  <a href="#Usage"><b>Usage</b></a> | 
+  <a href="#Examples"><b>Examples</b></a> | 
+  <a href="#API"><b>API</b></a> | 
+  <a href="#Details"><b>Details</b></a>
+</div>
+
 ---
 
 ## Features
@@ -23,67 +30,58 @@
 
 # Usage
 
-## Installation
+## Server
 
-Script tag (via unpkg):
+### Install themepark to your project
+```
+npm i themepark
+```
+
+### Create and use theme
+```js
+// 1. Import themepark
+import Themepark from 'themepark';
+
+// 2. Create theme
+let theme = new Themepark({
+  night: false,
+  hue: 220
+}, function({ night, hue }){
+  return {
+    primary: `hsl(${hue}, 100%, 50%)`,
+    background: night ? `hsl(${primary}, 20%, 20%)` : `white`,
+    text: night ? `white` : `hsl(200, 20%, 20%)`
+  }
+})
+
+// 3. Use theme's values
+console.log(theme.css)
+// --primary:hsl(220,100%,50%);--background:white;text:hsl(200,20%,20%);
+console.log(theme.vars) 
+// { primary: 'hsl(220,100%,50%)', background: 'white', text: 'hsl(220,20%,20%)' }
+
+```
+
+## Browser
+
+### Import Themepark (there are many ways to do this)
+
+*Script tag (via unpkg):*
 ```html
-<!-- Available as global variable themepark -->
+<!-- Available as global variable Themepark -->
 <script src="https://unpkg.com/themepark" />
 ```
 
-Browser Module (via snowpack):
+*Browser Module (via skypack):*
 ```js
-import { Theme } from 'https://cdn.skypack.dev/themepark';
+import Themepark from 'https://cdn.skypack.dev/themepark';
 ```
 
-## Overview
+### Create and use theme
 
-### Server
 ```js
-  import { generateCSSVars } from 'themepark';
-
-  // generateCSSVars(defaults, definitions)
-  let { css, values } = generateCSSVars({ night: false, hue: 220 }, {
-    primary: ({ hue }) => `hsl(${hue}, 100%, 50%)`,
-    background: ({ night, primary }) => night ? `hsl(${primary}, 20%, 20%)` : `white`,
-    text: ({ night }) => night ? `white` : `hsl(200, 20%, 20%)`
-  })
-
-  console.log(css) // -> "--primary:hsl(220,100%,50%);--background:white;--text:hsl(200,20%,20%)"
-  console.log(values) // -> { primary: "hsl(220,100%,50%)", background: "white", text: "hsl(200,20%,20%)" }
-```
-
-### Browser
-```js
-  import { Theme } from 'themepark'
+  import Theme from 'themepark'
   // new Themepark(defaults, definitions)
-  let theme = new Theme({ night: false, hue: 220 }, {
-    primary: ({ hue }) => `hsl(${hue}, 100%, 50%)`,
-    background: ({ night, primary }) => night ? `hsl(${primary}, 20%, 20%)` : `white`,
-    text: ({ night }) => night ? `white` : `hsl(200, 20%, 20%)`
-  })
-  // Apply these styles to the body element
-  theme.style('body')
-  let subscription_id = theme.sub((vars) => {
-    console.log(vars)
-  })
-
-  // (Later)
-  theme.update({ night: true }) // Will automatically update body and trigger subscribed function above
-  theme.update({ hue: 300 })
-
-  console.log(theme.vars) // Get current vars in object form
-  console.log(theme.params) // Get current parameters
-  console.log(Theme.toCSSVars(theme.vars)) // Convert object to CSS Variables
-
-  theme.unsub(subscripiton_id) // Remove subscription from earlier (clean up)
-```
-
-## API
-
-### Server
-
-```js
   let theme = new Themepark({
     night: false,
     hue: 220
@@ -95,24 +93,34 @@ import { Theme } from 'https://cdn.skypack.dev/themepark';
     }
   })
 
-  let { vars, css } = generateCSSVars(params, definitions)
+  // Apply these styles to the body element and subscribe to updates
+  theme.style('body')
 
-  console.log(css)
-  // --primary:hsl(220,100%,50%);--background:white;text:hsl(200,20%,20%);
-  console.log(vars) 
-  // { primary: 'hsl(220,100%,50%)', background: 'white', text: 'hsl(220,20%,20%)' }
+  // Subscribe to updates to the theme
+  let subscription_id = theme.sub((vars) => {
+    console.log(vars)
+  })
+
+  // (Later)
+  theme.update({ night: true }) // Will automatically update body and trigger subscribed function above
+  theme.update({ hue: 300 })
+
+  console.log(theme.vars) // Get current vars in object form
+  console.log(theme.params) // Get current parameters
+  console.log(theme.css) // Get current vars in CSS form
+
+  theme.unsub(subscripiton_id) // Remove subscription from earlier (clean up)
 ```
 
-### Themepark
-
-Useful for creating a reactive theme on the browser
-
-
-## Examples
+# Examples
 
 Coming soon
 
-## Details
+# API
+
+Coming soon
+
+# Details
 
 <details>
   <summary><strong>About CSS Variables</strong></summary>
