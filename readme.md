@@ -2,7 +2,7 @@
   <img src="https://github.com/marshallcb/themepark/raw/master/themepark.png" alt="Themepark" width="300" />
 </div>
 
-<h1 align="center">Themepark</h1>
+<h1 align="center">themepark</h1>
 <div align="center">
   <a href="https://npmjs.org/package/themepark">
     <img src="https://badgen.now.sh/npm/v/themepark" alt="version" />
@@ -12,24 +12,18 @@
   </a>
 </div>
 
-<div align="center">Tiny library for reactive CSS Variable themes (WIP)</div>
+<div align="center">Reactive CSS Variables</div>
+
+---
 
 ## Features
-- Returns CSS variable definitions (string)
-- Custom reactive definitions
-- Works on both server and client
+- Write reactive CSS with minimal overhead
+- SSR friendly (server-side rendering)
 - Works on all modern browsers: [Browser Compatibility](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties#Browser_compatibility)
 
 # Usage
 
 ## Installation
-
-Guided tutorial on path.cafe (coming soon)
-
-Via NPM:
-```sh
-npm install themepark
-```
 
 Script tag (via unpkg):
 ```html
@@ -87,20 +81,26 @@ import { Theme } from 'https://cdn.skypack.dev/themepark';
 
 ## API
 
-### generateCSSVars
+### Server
 
-Useful for server-side rendering (SSR)
 ```js
-  let params = {
+  let theme = new Themepark({
     night: false,
     hue: 220
-  }
-  let definitions = {
-    primary: ({ hue }) => `hsl(${hue}, 100%, 50%)`,
-    background: ({ night, primary }) => night ? `hsl(${primary}, 20%, 20%)` : `white`,
-    text: ({ night }) => night ? `white` : `hsl(200, 20%, 20%)`
-  }
-  let { values, css } = generateCSSVars(params, definitions)
+  }, function({ night, hue }){
+    return {
+      primary: `hsl(${hue}, 100%, 50%)`,
+      background: night ? `hsl(${primary}, 20%, 20%)` : `white`,
+      text: night ? `white` : `hsl(200, 20%, 20%)`
+    }
+  })
+
+  let { vars, css } = generateCSSVars(params, definitions)
+
+  console.log(css)
+  // --primary:hsl(220,100%,50%);--background:white;text:hsl(200,20%,20%);
+  console.log(vars) 
+  // { primary: 'hsl(220,100%,50%)', background: 'white', text: 'hsl(220,20%,20%)' }
 ```
 
 ### Themepark
@@ -127,30 +127,7 @@ Coming soon
   </div>
 </details>
 
-- - -
-
-# Development
-
-### Contributing Guidelines
-
-### Commands
-
-Guided process to commit changes and/or submit a pull request
-```sh
-npm run save
-```
-
-### Roadmap
-- Accessibility contrast guarantees with automated testing
-- High contrast flag
-- Alternate formulations
-- Make a show-off list
-- Examples & Tutorials
-
-## Acknowledgements
-- [HSLuv](https://www.hsluv.org/comparison/)
-- [Color Vision](https://en.wikipedia.org/wiki/Color_vision)
-- [Luminance Formulas](https://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color)
+---
 
 ## License
 

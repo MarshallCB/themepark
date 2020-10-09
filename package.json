@@ -7,6 +7,7 @@
   },
   "description": "Dynamic interface color generator",
   "unpkg": "dist/index.min.js",
+  "umd:name": "Themepark",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
   "license": "MIT",

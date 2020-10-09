@@ -1,19 +1,10 @@
-export function fillObject(definitions, parameters){
-  let ans = {}
-  Object.keys(definitions).forEach(k => {
-    if(typeof definitions[k] === 'function'){
-      ans[k] = definitions[k](parameters)
-    } else {
-      ans[k] = definitions[k]
-    }
-  })
-  return ans;
+export function fillDefinitions(params, definitions){
+  return definitions.call(null, params)
 }
 
 export function toCSSVars(o){
   let s = '';
-  Object.keys(o).forEach(k => {
+  for(const k in o)
     s += `--${k}: ${o[k]};`
-  })
   return s;
 }

@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Themepark!</title>
+    <style>
+      .background{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--background);
+        transition: background 0.5s;
+      }
+      .square{
+        width: 200px;
+        height: 200px;
+        background-color: var(--primary);
+        transition: background 0.5s;
+      }
+      h1{
+        color: var(--text);
+        transition: color 0.5s;
+      }
+      .highlight{
+        color: var(--primary);
+        transition: color 0.5s;
+      }
+    </style>
+    <script src="../dist/index.min.js"></script>
+  </head>
+  <body>
+    <script>
+      let theme = new Themepark({
+        night: false,
+        hue: 210
+      }, function({ night, hue }){
+        return {
+          primary: night ? `hsl(${hue}, 90%, 60%)` : `hsl(${hue}, 90%, 40%)`,
+          background: night ? '#112' : '#fff',
+          text: night ? '#fff' : '#112'
+        }
+      });
+      theme.style('body');
+
+      setInterval(() => {
+        theme.update({
+          hue: (theme.params.hue + 20) % 360
+        })
+      }, 1000);
+
+      function toggleNight(){
+        theme.update({ night: !theme.params.night })
+      }
+    </script>
+    <div class="background">
+      <h1>Hello, <span class="highlight">World</span>!</h1>
+      <div class="square"></div>
+      <button onclick="toggleNight()">Night</button>
+    </div>
+  </body>

@@ -29,11 +29,11 @@ export default {
 			terser()
 		]
 	}],
-	external: {
+	external: [
 		...require('module').builtinModules,
 		...Object.keys(pkg.dependencies || {}),
 		...Object.keys(pkg.peerDependencies || {}),
-	},
+	],
 	plugins: [
 		resolve()
 	]
