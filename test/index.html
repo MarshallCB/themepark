@@ -34,15 +34,13 @@
       let theme = new Themepark({
         night: false,
         hue: 210
-      }, function({ night, hue }){
-        return {
-          primary: night ? `hsl(${hue}, 90%, 60%)` : `hsl(${hue}, 90%, 40%)`,
-          background: night ? '#112' : '#fff',
-          text: night ? '#fff' : '#112'
-        }
-      });
+      }, ({ night, hue }) => ({
+        primary: night ? `hsl(${hue}, 90%, 60%)` : `hsl(${hue}, 90%, 40%)`,
+        background: night ? '#112' : '#fff',
+        text: night ? '#fff' : '#112'
+      }));
       theme.style('body');
-
+      
       setInterval(() => {
         theme.update({
           hue: (theme.params.hue + 20) % 360

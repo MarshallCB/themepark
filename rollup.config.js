@@ -21,6 +21,13 @@ export default {
 			terser()
 		]
 	}, {
+		format: 'esm',
+		file: "es.js",
+		sourcemap: false,
+		plugins: [
+			terser()
+		]
+	}, {
 		name: pkg['umd:name'] || pkg.name,
 		format: 'umd',
 		file: "min.js",
@@ -32,7 +39,7 @@ export default {
 	external: [
 		...require('module').builtinModules,
 		...Object.keys(pkg.dependencies || {}),
-		...Object.keys(pkg.peerDependencies || {}),
+		...Object.keys(pkg.peerDependencies || {})
 	],
 	plugins: [
 		resolve()

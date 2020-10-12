@@ -5,31 +5,27 @@
     "type": "git",
     "url": "git+https://github.com/marshallcb/themepark.git"
   },
-  "description": "Dynamic interface color generator",
+  "description": "Reactive CSS Variables",
   "unpkg": "dist/index.min.js",
   "umd:name": "Themepark",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
+  "types": "types/index.d.ts",
   "license": "MIT",
   "author": {
     "name": "Marshall Brandt",
     "email": "hey@m4r.sh",
     "url": "https://m4r.sh"
   },
-  "captain": {
-    "directory": "./to"
-  },
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
   "engines": {
     "node": ">= 10"
   },
   "scripts": {
-    "build": "rollup -c",
-    "save": "captain save",
-    "prepublishOnly": "npm run build",
-    "test": "uvu -r esm test"
+    "build": "rollup -c"
   },
   "keywords": [
     "colors",
@@ -42,10 +38,9 @@
   ],
   "devDependencies": {
     "@rollup/plugin-node-resolve": "8.1.0",
+    "esm": "^3.2.25",
     "rollup": "2.21.0",
     "rollup-plugin-terser": "6.1.0",
-    "shelljs": "^0.8.4",
-    "uvu": "0.0.19",
-    "esm": "^3.2.25"
+    "rollup-plugin-typescript2": "^0.27.3"
   }
 }

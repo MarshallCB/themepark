@@ -3,6 +3,7 @@
 </div>
 
 <h1 align="center">themepark</h1>
+<div align="center">Reactive CSS Variables</div>
 <div align="center">
   <a href="https://npmjs.org/package/themepark">
     <img src="https://badgen.now.sh/npm/v/themepark" alt="version" />
@@ -12,7 +13,6 @@
   </a>
 </div>
 
-<div align="center">Reactive CSS Variables</div>
 
 <div align="center">
   <a href="#Usage"><b>Usage</b></a> | 
@@ -32,17 +32,17 @@
 
 ## Server
 
-### Install themepark to your project
+### 1. Install themepark to your project
 ```
 npm i themepark
 ```
 
-### Create and use theme
+### 2. Create and use theme
 ```js
-// 1. Import themepark
+// Import themepark
 import Themepark from 'themepark';
 
-// 2. Create theme
+// Create theme
 let theme = new Themepark({
   night: false,
   hue: 220
@@ -54,7 +54,7 @@ let theme = new Themepark({
   }
 })
 
-// 3. Use theme's values
+// Use theme's values
 console.log(theme.css)
 // --primary:hsl(220,100%,50%);--background:white;text:hsl(200,20%,20%);
 console.log(theme.vars) 
@@ -64,20 +64,20 @@ console.log(theme.vars)
 
 ## Browser
 
-### Import Themepark (there are many ways to do this)
+### 1. Import Themepark (there are many ways to do this)
 
-*Script tag (via unpkg):*
+**Script tag (via unpkg):**
 ```html
 <!-- Available as global variable Themepark -->
 <script src="https://unpkg.com/themepark" />
 ```
 
-*Browser Module (via skypack):*
+**Browser Module (via skypack):**
 ```js
 import Themepark from 'https://cdn.skypack.dev/themepark';
 ```
 
-### Create and use theme
+### 2. Create and use theme
 
 ```js
   import Theme from 'themepark'

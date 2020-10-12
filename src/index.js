@@ -1,20 +1,23 @@
-import { fillDefinitions, toCSSVars } from './helpers'
+function toCSSVars(o){
+  let s = '';
+  for(const k in o)
+    s += `--${k}: ${o[k]};`
+  return s;
+}
 
 class Themepark{
   constructor(params, definitions){
     this.subscribers = new Map()
     this.params = params;
     this.definitions = definitions;
-    this.update()
+    this.vars = this.definitions(this.params)
+    this.css = toCSSVars(this.vars)
   }
   update(updated_params = {}){
-    this.params = {
-      ...this.params,
-      ...updated_params
-    }
-    this.vars = fillDefinitions(this.params, this.definitions)
+    //updates this.params, then uses new this.params to fill vars
+    this.vars = this.definitions(Object.assign(this.params,updated_params))
     this.css = toCSSVars(this.vars)
-    this.subscribers.forEach((v,k) => {
+    this.subscribers.forEach((v) => {
       v.call(null, this.vars)
     })
   }
@@ -24,6 +27,7 @@ class Themepark{
     if(instant){
       fn.call(null,this.vars)
     }
+    return id;
   }
   unsub(id){
     this.subscribers.delete(id)
@@ -31,13 +35,12 @@ class Themepark{
   style(query){
     try{
       this.sub((o) => document.querySelectorAll(query).forEach(e => {
-        e.style = toCSSVars(o)
+        e.style.cssText = toCSSVars(o)
       }))
     } catch(e){
       console.error(e)
     }
   }
 }
-Themepark.toCSSVars = toCSSVars;
 
 export default Themepark;
