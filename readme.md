@@ -3,7 +3,6 @@
 </div>
 
 <h1 align="center">themepark</h1>
-<div align="center">Reactive CSS Variables</div>
 <div align="center">
   <a href="https://npmjs.org/package/themepark">
     <img src="https://badgen.now.sh/npm/v/themepark" alt="version" />
@@ -12,6 +11,8 @@
     <img src="https://img.badgesize.io/MarshallCB/themepark/master/min.js?compression=brotli" alt="install size" />
   </a>
 </div>
+
+<div align="center">Reactive CSS Variables</div>
 
 ---
 
