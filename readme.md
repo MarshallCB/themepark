@@ -86,7 +86,7 @@ import Themepark from 'https://cdn.skypack.dev/themepark';
 
 # API
 
-### `new Themepark(parameters, definitions)`
+### `let theme = new Themepark(parameters, definitions)`
 Creates a new instance of Themepark
 
 `parameters`: stateful values that can be used by `definitions` and can updated to trigger a recalculation of styles
@@ -103,6 +103,8 @@ let theme = new Themepark({
 }))
 ```
 
+---
+
 ### `theme.update(new_parameters)`
 Updates the parameters, CSS variables, and notifies all subscribers
 
@@ -118,6 +120,8 @@ theme.update({
 })
 ```
 
+---
+
 ### `theme.style(HTMLElement)` or `theme.style(CSSSelector)`
 Adds node(s) to the list of subscribers for this theme. On theme update, themepark will set the `style` attribute with all CSS variables of the theme. Usually only needed for the `body` element (variables are inherited in CSS).
 
@@ -127,6 +131,8 @@ theme.style('body')
 // OR
 theme.style(document.querySelector('body'))
 ```
+
+---
 
 ### `theme.subscribe(fn)`
 Call a specified function for updates to the theme. Returns an ID for unsubscribing.
@@ -145,15 +151,35 @@ let id = theme.subscribe(({ css, params, vars}) => {
 theme.unsubscribe(id)
 ```
 
+---
+
 ### `theme.params`
 An object containing the current params (defined in constructor) of the theme
+
+**Example**
+```js
+console.log(theme.params) // { hue: 250, night: false }
+```
+
+---
 
 ### `theme.vars`
 An object representing the CSS variables
 
+**Example**
+```js
+console.log(theme.vars) // { primary: 'hsl(250,100%,50%)', bg: '#fff' }
+```
+
+---
+
 ### `theme.css`
 A CSS string of all the variables that can easily be injected in styles
 
+**Example**
+```js
+console.log(theme.css) // '--primary:hsl(250,100%,50%);--bg:#fff;'
+```
 
 ---
 
