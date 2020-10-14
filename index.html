@@ -39,13 +39,20 @@
         background: night ? '#112' : '#fff',
         text: night ? '#fff' : '#112'
       }));
-      theme.style('body');
+      theme.style(document.querySelector('body'));
       
       setInterval(() => {
         theme.update({
           hue: (theme.params.hue + 20) % 360
         })
       }, 1000);
+
+      let id = theme.subscribe(({ css, params, vars}) => {
+        console.log(params)
+        console.log(vars)
+        console.log(css)
+      })
+      console.log(id)
 
       function toggleNight(){
         theme.update({ night: !theme.params.night })

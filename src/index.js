@@ -18,24 +18,27 @@ class Themepark{
     this.vars = this.definitions(Object.assign(this.params,updated_params))
     this.css = toCSSVars(this.vars)
     this.subscribers.forEach((v) => {
-      v.call(null, this.vars)
+      v.call(null, {vars: this.vars, params: this.params, css: this.css})
     })
   }
-  sub(fn, instant = true){
+  subscribe(fn, instant = true){
     let id = "_" + Math.random().toString(36).substr(2, 9)
     this.subscribers.set(id, fn)
     if(instant){
-      fn.call(null,this.vars)
+      this.update()
     }
     return id;
   }
-  unsub(id){
+  unsubscribe(id){
     this.subscribers.delete(id)
   }
-  style(query){
+  style(target){
+    // if it's a string, we assume it's a CSS query. Else, we assume it's a node
+    // return a function so if new nodes are added, we get the most up-to-date 
+    let nodes = typeof target === 'string' ? ()=>document.querySelectorAll(target) : ()=>[target]
     try{
-      this.sub((o) => document.querySelectorAll(query).forEach(e => {
-        e.style.cssText = toCSSVars(o)
+      this.subscribe(({ css }) => nodes().forEach(e => {
+        requestAnimationFrame(()=>{ e.style.cssText = css })
       }))
     } catch(e){
       console.error(e)

@@ -6,8 +6,8 @@ declare class Themepark {
     css: string;
     constructor(params: object, definitions: (params: object) => string);
     update(updated_params?: {}): void;
-    sub(fn: (vars: object) => void, instant?: boolean): string;
-    unsub(id: string): void;
-    style(query: string): void;
+    subscribe(fn: ({vars, css, params}:{vars:object,css:string,params:object}) => void, instant?: boolean): string;
+    unsubscribe(id: string): void;
+    style(target: string | HTMLElement): void;
 }
 export default Themepark;
