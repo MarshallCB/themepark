@@ -22,7 +22,7 @@ class Themepark{
     })
   }
   subscribe(fn, instant = true){
-    let id = "_" + Math.random().toString(36).substr(2, 9)
+    let id = Symbol()
     this.subscribers.set(id, fn)
     if(instant){
       this.update()
