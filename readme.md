@@ -142,14 +142,14 @@ Call a specified function for updates to the theme. Returns an ID for unsubscrib
 
 **Example**
 ```js
-let id = theme.subscribe(({ css, params, vars}) => {
+let unsubscribe = theme.subscribe(({ css, params, vars}) => {
   console.log(params)
   console.log(vars)
   console.log(css)
 })
 
 // Unsubscribe
-theme.unsubscribe(id)
+unsubscribe()
 ```
 
 ---

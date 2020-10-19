@@ -27,10 +27,7 @@ class Themepark{
     if(instant){
       this.update()
     }
-    return id;
-  }
-  unsubscribe(id){
-    this.subscribers.delete(id)
+    return () => this.subscribers.delete(id);
   }
   style(target){
     // if it's a string, we assume it's a CSS query. Else, we assume it's a node
