@@ -8,7 +8,7 @@
     <img src="https://badgen.now.sh/npm/v/themepark" alt="version" />
   </a>
   <a href="https://bundlephobia.com/result?p=themepark">
-    <img src="https://img.badgesize.io/MarshallCB/themepark/master/min.js?compression=brotli" alt="install size" />
+    <img src="https://img.badgesize.io/MarshallCB/themepark/master/es.js?compression=brotli" alt="install size" />
   </a>
 </div>
 
