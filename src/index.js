@@ -5,29 +5,31 @@ function toCSSVars(o){
   return s;
 }
 
+let { assign } = Object;
 class Themepark{
   constructor(params, definitions){
-    this.subscribers = new Map()
-    this.params = params;
-    this.definitions = definitions;
-    this.vars = this.definitions(this.params)
-    this.css = toCSSVars(this.vars)
+    assign(this,{
+      s: new Set(),
+      params,
+      definitions
+    })
+    this.update();
   }
   update(updated_params = {}){
     //updates this.params, then uses new this.params to fill vars
-    this.vars = this.definitions(Object.assign(this.params,updated_params))
+    this.vars = this.definitions(assign(this.params,updated_params))
     this.css = toCSSVars(this.vars)
-    this.subscribers.forEach((v) => {
-      v.call(null, {vars: this.vars, params: this.params, css: this.css})
+    this.s.forEach((v) => {
+      // this has { vars, params, css }
+      v.call(null, this)
     })
   }
-  subscribe(fn, instant = true){
-    let id = Symbol()
-    this.subscribers.set(id, fn)
+  subscribe(fn,instant=true){
+    this.s.add(fn)
     if(instant){
       this.update()
     }
-    return () => this.subscribers.delete(id);
+    return () => this.s.delete(fn);
   }
   style(target){
     // if it's a string, we assume it's a CSS query. Else, we assume it's a node
