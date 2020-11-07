@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/marshallcb/themepark/raw/master/themepark.png" alt="Themepark" width="100" />
+  <img src="https://github.com/marshallcb/themepark/raw/main/themepark.png" alt="Themepark" width="100" />
 </div>
 
 <h1 align="center">themepark</h1>
@@ -8,7 +8,7 @@
     <img src="https://badgen.now.sh/npm/v/themepark" alt="version" />
   </a>
   <a href="https://bundlephobia.com/result?p=themepark">
-    <img src="https://img.badgesize.io/MarshallCB/themepark/master/es.js?compression=brotli" alt="install size" />
+    <img src="https://img.badgesize.io/MarshallCB/themepark/main/es.js?compression=brotli" alt="install size" />
   </a>
 </div>
 
