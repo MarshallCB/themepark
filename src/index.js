@@ -35,7 +35,7 @@ class Themepark{
     // if it's a string, we assume it's a CSS query. Else, we assume it's a node
     // return a function so if new nodes are added, we get the most up-to-date 
     let nodes = typeof target === 'string' ? ()=>document.querySelectorAll(target) : ()=>[target]
-    this.subscribe(({ css }) => nodes().map(e => {
+    this.subscribe(({ css }) => nodes().forEach(e => {
       requestAnimationFrame(()=>{ e.style.cssText = css })
     }))
   }
