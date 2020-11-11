@@ -19,7 +19,7 @@ class Themepark{
     //updates this.params, then uses new this.params to fill vars
     this.vars = this.definitions(assign(this.params,updated_params))
     this.css = toCSSVars(this.vars)
-    this.s.map((v) => {
+    this.s.forEach((v) => {
       // this has { vars, params, css }
       v(this)
     })
