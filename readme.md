@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/marshallcb/themepark/raw/main/docs/themepark.png" alt="Themepark" width="100" />
+  <img src="https://github.com/marshallcb/themepark/raw/main/meta/themepark.png" alt="Themepark" width="100" />
 </div>
 
 <h1 align="center">themepark</h1>
