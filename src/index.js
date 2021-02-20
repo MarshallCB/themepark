@@ -89,8 +89,8 @@ export function themepark(params={}, definitions=x=>x){
         fn = q;
       } else {
         let nodes = t === 'string' ? ()=>document.querySelectorAll(q) : ()=>[q]
-        fn = theme => nodes().forEach(e => {
-          requestAnimationFrame(()=>{ e.style.cssText = `${theme}`})
+        fn = () => nodes().forEach(e => {
+          requestAnimationFrame(()=>{ e.style.cssText = toCSSVars() })
         })
       }
       _$.add(fn)
