@@ -24,70 +24,84 @@
 
 # Usage
 
-### 1. Import Themepark (there are many ways to do this)
+### 1. Import Themepark
 
 **Install package (via npm)**
 ```bash
 npm i themepark
 ```
 ```js
+// ESM syntax
+import { themepark } from 'themepark';
 // CJS syntax
-var Themepark = require('themepark')
-// OR new ES6 syntax
-import Themepark from 'themepark';
+var { themepark } = require('themepark')
 ```
 
 **Script tag (via unpkg):**
 ```html
-<!-- Available as global variable Themepark -->
+<!-- Available as global variable themepark -->
 <script src="https://unpkg.com/themepark"></script>
 <!-- Later -->
 <script>
-  let theme = new Themepark(...); // your theme parameters / definitions go here
+  let theme = themepark(/***/); // theme parameters / definitions go here
 </script>
 ```
 
 **Browser Module (via skypack):**
 ```js
-import Themepark from 'https://cdn.skypack.dev/themepark';
+import { themepark } from 'https://cdn.skypack.dev/themepark';
 ```
 
 ### 2. Create and use theme
 
 ```js
-  let theme = new Themepark({
+  // Initialize theme
+  let theme = themepark({
     night: false,
     hue: 220
-  }, function({ night, hue }){
-    return {
-      primary: `hsl(${hue}, 100%, 50%)`,
-      background: night ? `hsl(${primary}, 20%, 20%)` : `white`,
-      text: night ? `white` : `hsl(200, 20%, 20%)`
-    }
+  }, ({ night, hue }) => ({
+    primary: `hsl(${hue}, 100%, 50%)`,
+    background: night ? `hsl(${primary}, 20%, 20%)` : `white`,
+    text: night ? `white` : `hsl(200, 20%, 20%)`
+  }))
+
+  // Subscribe to changes in the theme
+  let unsub = theme.$(({ night, hue, primary, background, text }) => {
+    console.log(night) // false
+    console.log(primary) // hsl(220,100%,50%)
   })
 
-  // Apply these styles to the body element and subscribe to updates
-  theme.style('body')
+  // Unsubcribe from updates
+  unsub()
 
-  // Manually subscribe to updates to the theme
-  let subscription_id = theme.sub((vars) => {
-    console.log(vars)
+  // Apply CSS var definitions to the body element and auto-subscribe to updates
+  theme.$('body')
+
+  // Directly access values (sync)
+  console.log(theme.$.primary) // `hsl(220,100%,50%)`
+  console.log(theme.$.night) // false
+
+  // Update theme granularly
+  theme.hue = 120;
+
+  // Update theme with multiple changes
+  theme({
+    hue: 320,
+    night: true
   })
 
-  // (Later)
-  theme.update({ night: true }) // Will automatically update body and trigger subscribed function above
-  theme.update({ hue: 300 })
+  // Get CSS var definitions as string
+  console.log(theme.toString()) // --primary:hsl(320,100%,50%);--background:hsl(320,20%,20%);--text:white;
 
-  console.log(theme.vars) // Get current vars in object form
-  console.log(theme.params) // Get current parameters
-  console.log(theme.css) // Get current vars in CSS form
+  // Get var reference as string
+  console.log(theme.text) // var(--text)
+  
 
-  theme.unsub(subscripiton_id) // Remove subscription from earlier (clean up)
 ```
 
 # API
 
-### `let theme = new Themepark(parameters, definitions)`
+### `let theme = themepark(parameters, definitions)`
 Creates a new instance of Themepark
 
 `parameters`: stateful values that can be used by `definitions` and can updated to trigger a recalculation of styles
@@ -95,7 +109,7 @@ Creates a new instance of Themepark
 
 **Example**
 ```js
-let theme = new Themepark({
+let theme = themepark({
   night: true,
   hue: 220
 }, ({ night, hue }) => ({
@@ -106,81 +120,35 @@ let theme = new Themepark({
 
 ---
 
-### `theme.update(new_parameters)`
-Updates the parameters, CSS variables, and notifies all subscribers
-
-`new_parameters`: partial object that will replace existing parameters with the same keys and trigger a theme update
-
-**Example**
-```js
-theme.update({ night: false }); // turns background to dark
-
-theme.update({
-  night: true, // turn background white
-  hue: (theme.params.hue + 30) % 360 // shift hue by 1/12 of the color wheel
-})
-```
+### `theme.$(() => {})`
+Subscribe to theme updates
 
 ---
 
-### `theme.style(HTMLElement)` or `theme.style(CSSSelector)`
-Adds node(s) to the list of subscribers for this theme. On theme update, themepark will set the `style` attribute with all CSS variables of the theme. Usually only needed for the `body` element (variables are inherited in CSS).
-
-**Example**
-```js
-theme.style('body')
-// OR
-theme.style(document.querySelector('body'))
-```
+### `theme.$(CSS_Query)`
+Finds all DOM elements with matching CSS query and automatically style those elements
 
 ---
 
-### `theme.subscribe(fn)`
-Call a specified function for updates to the theme. Returns an ID for unsubscribing.
-
-`fn`: callback function that receives `({ css, params, vars })` as parameters
-
-**Example**
-```js
-let unsubscribe = theme.subscribe(({ css, params, vars}) => {
-  console.log(params)
-  console.log(vars)
-  console.log(css)
-})
-
-// Unsubscribe
-unsubscribe()
-```
+### `theme.$[var_name]`
+Synchronously get the value of `var_name`
 
 ---
 
-### `theme.params`
-An object containing the current params (defined in constructor) of the theme
+### `theme[var_name]`
+Get the string of the CSS variable (for inserting directly into styles)
 
-**Example**
-```js
-console.log(theme.params) // { hue: 250, night: false }
-```
+Ex: `theme.primary ~> "var(--primary)"`
 
 ---
 
-### `theme.vars`
-An object representing the CSS variables
-
-**Example**
-```js
-console.log(theme.vars) // { primary: 'hsl(250,100%,50%)', bg: '#fff' }
-```
+### `theme[param] = value`
+Update a parameter, recompute css vars, and trigger all subscribers to update
 
 ---
 
-### `theme.css`
-A CSS string of all the variables that can easily be injected in styles
-
-**Example**
-```js
-console.log(theme.css) // '--primary:hsl(250,100%,50%);--bg:#fff;'
-```
+### `theme(obj)`
+Assigns all properties in `obj` to `params` and triggers all subscribers to update
 
 ---
 
