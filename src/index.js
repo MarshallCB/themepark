@@ -60,6 +60,7 @@ export function themepark(params={}, definitions=x=>x){
       s += `--${k}:${vars[k]};`
     return s;
   }
+  theme.toString = toCSSVars
   // smart param setters and getters
   defineProperties(theme, 
     assign(
@@ -102,8 +103,7 @@ export function themepark(params={}, definitions=x=>x){
         return vars[k] || params[k]
       }
     }),
-    [Symbol.toPrimitive]: toCSSVars,
-    [toString]: toCSSVars
+    [Symbol.toPrimitive]: toCSSVars
   })
   return theme;
 }

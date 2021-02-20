@@ -23,4 +23,5 @@ theme({
 console.log(theme.primary) // var(--primary)
 console.log(theme.$.primary) // `hsl(230,100%,50%)`
 console.log(`${theme}`) // --primary:hsl(230,100%,50%);--secondary:hsl(245,100%,50%);
+console.log(theme.toString())
 console.log(theme)
