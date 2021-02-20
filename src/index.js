@@ -63,22 +63,17 @@ export function themepark(params={}, definitions=x=>x){
   theme.toString = toCSSVars
   // smart param setters and getters
   defineProperties(theme, 
-    assign(
-      keys(params).reduce((o, k) => assign(o,{
-        [k]: {
-          get(){ return params[k] },
-          set(v){
+    keys(params).concat(keys(vars)).reduce((o, k) => assign(o,{
+      [k]: {
+        get(){ return keys(vars).includes(k) ? `var(--${k})` : params[k] },
+        set(v){
+          if(keys(params).includes(k)){
             params[k] = v
             _update()
           }
         }
-      }), {}),
-      keys(vars).reduce((o, k) => assign(o,{
-        [k]: {
-          get(){ return `var(--${k})` }
-        }
-      }), {})
-    )
+      }
+    }), {})
   )
   // 
   assign(theme,{
