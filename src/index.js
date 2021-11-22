@@ -2,9 +2,13 @@ let { defineProperties, keys, assign } = Object
 
 export function themepark(params={}, definitions=x=>x){
   let theme = function(o){
-    assign(params, o)
-    _update()
-    return theme;
+    if(typeof window !== 'undefined'){
+      assign(params, o)
+      _update()
+      return theme;
+    } else {
+      return themepark(assign(params,o), definitions)
+    }
   }
   let vars = definitions(params)
   let _$ = new Set()
